@@ -1,4 +1,5 @@
 let playerChoice;
+let score = 0;
 
 const rock = document.getElementById('rock');
 rock.addEventListener('click', () => {
@@ -26,24 +27,36 @@ function getComputerChoice() {
 
 const body = document.querySelector('body');
 const results = document.createElement('div');
+body.appendChild(results);
+const roundResult = document.createElement('p');
+const scoreMessage = document.createElement('p');
 
 function playSingleRound() {
+  let computerChoice = getComputerChoice();
   switch (true) {
-    case getComputerChoice() === 'rock' && playerChoice === 'paper':
-    case getComputerChoice() === 'paper' && playerChoice === 'scissors':
-    case getComputerChoice() === 'scissors' && playerChoice === 'rock':
-      results.textContent = `Your choice is ${playerChoice}, computer\'s choice is ${getComputerChoice()}. You Win!`;
-      body.appendChild(results);
-      return 1;
-    case getComputerChoice() === 'rock' && playerChoice === 'scissors':
-    case getComputerChoice() === 'paper' && playerChoice === 'rock':
-    case getComputerChoice() === 'scissors' && playerChoice === 'paper':
-      results.textContent = `Your choice is ${playerChoice}, computer\'s choice is ${getComputerChoice()}. You Lose!`;
-      body.appendChild(results);
-      return -1;
+    case computerChoice === 'rock' && playerChoice === 'paper':
+    case computerChoice === 'paper' && playerChoice === 'scissors':
+    case computerChoice === 'scissors' && playerChoice === 'rock':
+      roundResult.textContent = `Your choice is ${playerChoice}, computer\'s choice is ${computerChoice}. You Win!`;
+      results.appendChild(roundResult);
+      score += 1;
+      scoreMessage.textContent = `Your score: ${score}`;
+      results.appendChild(scoreMessage);
+      break;
+    case computerChoice === 'rock' && playerChoice === 'scissors':
+    case computerChoice === 'paper' && playerChoice === 'rock':
+    case computerChoice === 'scissors' && playerChoice === 'paper':
+      roundResult.textContent = `Your choice is ${playerChoice}, computer\'s choice is ${computerChoice}. You Lose!`;
+      results.appendChild(roundResult);
+      score -= 1;
+      scoreMessage.textContent = `Your score: ${score}`;
+      results.appendChild(scoreMessage);
+      break;
     default:
-      results.textContent = `Your choice is ${playerChoice}, computer\'s choice is ${getComputerChoice()}. Draw!`;
-      body.appendChild(results);
-      return 0;
+      roundResult.textContent = `Your choice is ${playerChoice}, computer\'s choice is ${computerChoice}. Draw!`;
+      results.appendChild(roundResult);
+      scoreMessage.textContent = `Your score: ${score}`;
+      results.appendChild(scoreMessage);
+      break;
   }
 }
