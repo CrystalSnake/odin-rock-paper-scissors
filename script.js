@@ -1,52 +1,49 @@
-const handState = ["rock", "paper", "scissors"];
+let playerChoice;
+
+const rock = document.getElementById('rock');
+rock.addEventListener('click', () => {
+  playerChoice = 'rock';
+});
+rock.addEventListener('click', playSingleRound);
+
+const paper = document.getElementById('paper');
+paper.addEventListener('click', () => {
+  playerChoice = 'paper';
+});
+paper.addEventListener('click', playSingleRound);
+
+const scissors = document.getElementById('scissors');
+scissors.addEventListener('click', () => {
+  playerChoice = 'scissors';
+});
+scissors.addEventListener('click', playSingleRound);
 
 function getComputerChoice() {
-  return handState[Math.floor(Math.random() * 3)];
+  const handState = ['rock', 'paper', 'scissors'];
+  let computerChoice = handState[Math.floor(Math.random() * 3)];
+  return computerChoice;
 }
 
-function getPlayerSelection() {
-  return prompt("Enter your choice (Rock, Paper or Scissors)").toLowerCase();
-}
+const body = document.querySelector('body');
+const results = document.createElement('div');
 
-function playSingleRound(playerSelection, computerSelection) {
+function playSingleRound() {
   switch (true) {
-    case computerSelection === "rock" && playerSelection === "paper":
-    case computerSelection === "paper" && playerSelection === "scissors":
-    case computerSelection === "scissors" && playerSelection === "rock":
-      return [
-        `Your choice is ${playerSelection}, computer\'s choice is ${computerSelection}. You Win!`,
-        1,
-      ];
-    case computerSelection === "rock" && playerSelection === "scissors":
-    case computerSelection === "paper" && playerSelection === "rock":
-    case computerSelection === "scissors" && playerSelection === "paper":
-      return [
-        `Your choice is ${playerSelection}, computer\'s choice is ${computerSelection}. You Lose!`,
-        -1,
-      ];
+    case getComputerChoice() === 'rock' && playerChoice === 'paper':
+    case getComputerChoice() === 'paper' && playerChoice === 'scissors':
+    case getComputerChoice() === 'scissors' && playerChoice === 'rock':
+      results.textContent = `Your choice is ${playerChoice}, computer\'s choice is ${getComputerChoice()}. You Win!`;
+      body.appendChild(results);
+      return 1;
+    case getComputerChoice() === 'rock' && playerChoice === 'scissors':
+    case getComputerChoice() === 'paper' && playerChoice === 'rock':
+    case getComputerChoice() === 'scissors' && playerChoice === 'paper':
+      results.textContent = `Your choice is ${playerChoice}, computer\'s choice is ${getComputerChoice()}. You Lose!`;
+      body.appendChild(results);
+      return -1;
     default:
-      return [
-        `Your choice is ${playerSelection}, computer\'s choice is ${computerSelection}. Draw!`,
-        0,
-      ];
+      results.textContent = `Your choice is ${playerChoice}, computer\'s choice is ${getComputerChoice()}. Draw!`;
+      body.appendChild(results);
+      return 0;
   }
 }
-
-function game() {
-  var playerScore = 0;
-  for (let i = 0; i < 5; i++) {
-    const computerSelection = getComputerChoice();
-    const playerSelection = getPlayerSelection();
-    console.log(playSingleRound(playerSelection, computerSelection)[0]);
-    playerScore += playSingleRound(playerSelection, computerSelection)[1];
-  }
-  if (playerScore === 0) {
-    console.log("Draw!");
-  } else if (playerScore > 0) {
-    console.log("You Win!");
-  } else {
-    console.log("You Lose!");
-  }
-}
-
-game();
