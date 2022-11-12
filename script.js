@@ -30,6 +30,7 @@ const results = document.createElement('div');
 body.appendChild(results);
 const roundResult = document.createElement('p');
 const scoreMessage = document.createElement('p');
+const gameResult = document.createElement('p');
 
 function playSingleRound() {
   let computerChoice = getComputerChoice();
@@ -58,5 +59,15 @@ function playSingleRound() {
       scoreMessage.textContent = `Your score: ${score}`;
       results.appendChild(scoreMessage);
       break;
+  }
+
+  if (score > 4) {
+    gameResult.textContent = 'You win game!';
+    results.appendChild(gameResult);
+    score = 0;
+  } else if (score < -4) {
+    gameResult.textContent = 'You lose game!';
+    results.appendChild(gameResult);
+    score = 0;
   }
 }
